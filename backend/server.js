@@ -1,24 +1,11 @@
 const http = require('http');
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const fs = require('fs');
 
-const hostname = '127.0.0.1';
-const port = 3000;
-
-const server = http.createServer((req, res) => {
-	res.writeHead(200, {
-		'Content-Type': 'text/plain',
-		'Access-Control-Allow-Origin' : '*',
-		'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
-	});
-	res.end('https://cdns-preview-8.dzcdn.net/stream/c-840ed62a497746762716dd503386d476-5.mp3');
-});
-
-server.listen(port, hostname, () => {
-	console.log(`Server running at http://${hostname}:${port}/\n`);
-});
+const consoleCheats = true;
 
 var lineReader = require('readline').createInterface({
-	input: require('fs').createReadStream('playlists.txt')
+	input: fs.createReadStream('playlists.txt')
 });
 
 var tracklist = [];
@@ -45,4 +32,33 @@ lineReader.on('line', function (line) {
 	};
 	xhttp.open("GET", "https://api.deezer.com/playlist/" + line, true);
 	xhttp.send();
+});
+
+//Shuffle the tracklist
+for(let i = tracklist.length - 1; i > 0; i--){
+	let j = Math.floor(Math.random() * (i + 1));
+	[tracklist[i], tracklist[j]] = [tracklist[j], tracklist[i]];
+}
+console.log(`Shuffled ${tracklist.length} tracks.`);
+if(consoleCheats){
+	for(let i = 0; i < tracklist.length; i++){
+		console.log(`>${tracklist[i].title}`);
+	}
+}
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const server = http.createServer((request, response) => {
+	response.writeHead(200, {
+		'Content-Type': 'text/plain',
+		'Access-Control-Allow-Origin' : '*',
+		'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
+	});
+	response.end('https://cdns-preview-8.dzcdn.net/stream/c-840ed62a497746762716dd503386d476-5.mp3');
+	console.log(request);
+});
+
+server.listen(port, hostname, () => {
+	console.log(`Server running at http://${hostname}:${port}/\n`);
 });
