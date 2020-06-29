@@ -4,13 +4,11 @@ const fs = require('fs');
 
 const consoleCheats = true;
 
-var lineReader = require('readline').createInterface({
-	input: fs.createReadStream('playlists.txt')
-});
-
 var tracklist = [];
-
-lineReader.on('line', function (line) {
+shuffleTracks();
+var playlists = fs.readFileSync('playlists.txt', 'utf8').split();
+var processedPlaylists = 0;
+for(let k = 0; k < playlists.length; k++){
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -29,20 +27,28 @@ lineReader.on('line', function (line) {
 				}
 			}
 		}
+		processedPlaylists++;
 	};
-	xhttp.open("GET", "https://api.deezer.com/playlist/" + line, true);
+	xhttp.open("GET", "https://api.deezer.com/playlist/" + playlists[k], true);
 	xhttp.send();
-});
-
-//Shuffle the tracklist
-for(let i = tracklist.length - 1; i > 0; i--){
-	let j = Math.floor(Math.random() * (i + 1));
-	[tracklist[i], tracklist[j]] = [tracklist[j], tracklist[i]];
 }
-console.log(`Shuffled ${tracklist.length} tracks.`);
-if(consoleCheats){
-	for(let i = 0; i < tracklist.length; i++){
-		console.log(`>${tracklist[i].title}`);
+
+function shuffleTracks(){
+	if(typeof playlists === 'undefined' || processedPlaylists < playlists.length){
+		setTimeout(shuffleTracks, 1000);
+	}
+	if(tracklist == 0){
+		return;
+	}
+	for(let i = tracklist.length - 1; i > 0; i--){
+		let j = Math.floor(Math.random() * (i + 1));
+		[tracklist[i], tracklist[j]] = [tracklist[j], tracklist[i]];
+	}
+	console.log(`Shuffled ${tracklist.length} tracks.`);
+	if(consoleCheats){
+		for(let i = 0; i < tracklist.length; i++){
+			console.log(`>${tracklist[i].title}`);
+		}
 	}
 }
 
