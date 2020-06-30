@@ -9,7 +9,7 @@
     #myBar {
         width: 0%;
         height: 10px;
-        background-color: #4CAF50; 
+        background-color: #4CAF50;
     }
 </style>
 
@@ -24,13 +24,17 @@
     <br>
     <button onclick="move()">Play Song</button>
 
+
+    <h2>Time remaining:</h2>
+    <h2 id=remaining>20</h2>
+
     <script>
         var i = 0;
         function move() {
             var start = performance.now();
             if (i == 0) {
                 i = 1;
-                var elem = document.getElementById("myBar");
+                var progbar = document.getElementById("myBar");
                 var width = 0;
                 var id = setInterval(frame, 10);
                 function frame() {
@@ -40,7 +44,12 @@
                     } else {
                         var elapsed = (performance.now() - start) / 1000;
                         width = (elapsed / 20) * 100;
-                        elem.style.width = width + "%";
+                        progbar.style.width = width + "%";
+                        var countdown = document.getElementById("remaining");
+                        var timeremaining = (20 - elapsed);
+                        if(timeremaining>=0){
+                            countdown.textContent = timeremaining.toFixed(0);
+                        }
                     }
                 }
             }
