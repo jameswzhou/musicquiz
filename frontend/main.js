@@ -10,3 +10,8 @@ function test(){
   xhttp.open("GET", "http://localhost:3000/", true);
   xhttp.send();
 }
+
+function add(){
+      var list = document.getElementById("players");
+      list.innerHTML += "<li>Rachel</li>";
+}
