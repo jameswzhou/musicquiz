@@ -11,26 +11,11 @@
 <body>
 <header>GAEM</header>
 <button class="button button1" onclick="test()">Go</button>
-<div class = "hidden">
-</div>
 <div class="form"> 
     <input type = "text" id = "guessField" placeholder = "Guess the song and artist"> 
     <button type = "submit" class = "guessSubmit" id = "submit"> Enter </button>
 </div> 
 
-<script>
-function test(){
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      var audioElement = new Audio(this.responseText);
-	  audioElement.volume = 0.1;
-	  audioElement.play();
-    }
-  };
-  xhttp.open("GET", "http://localhost:3000/", true);
-  xhttp.send();
-}
-</script>
+<script src="main.js"></script>
 </body>
 </html>
