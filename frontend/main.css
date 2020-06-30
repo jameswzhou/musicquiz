@@ -18,6 +18,27 @@ body {
   padding: 25px;
   font-family: "Barlow", sans-serif;
 }
+div.leaderboard{
+  position: fixed;
+  top: 105px;
+  left: 0;
+  width: 15%;
+  height: 400px;
+  color: white;
+  background-color: #666;
+  font-size: 30px;
+  text-align: center;
+  font-family: "Barlow", sans-serif;
+}
+div.players{
+  position:fixed;
+  top: 130px;
+  left: 5px;
+  color: white;
+  font-size: 20px;
+  text-align: left;
+  font-family: "Barlow", sans-serif;
+}
 .button {
   border: none;
   color: white;
@@ -34,6 +55,16 @@ body {
   position: fixed;
   top: 70%;
   left: 50%;
+}
+.button2{
+  position: fixed;
+  top: 40%;
+  left: 5%;
+}
+.button3{
+  position:fixed;
+  top: 50%;
+  left:57%;
 }
 .form {
   display: flex;
