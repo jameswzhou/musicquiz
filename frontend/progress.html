@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<style>
+    #myProgress {
+        width: 50%;
+        background-color: #ddd;
+    }
+
+    #myBar {
+        width: 0%;
+        height: 10px;
+        background-color: #4CAF50; 
+    }
+</style>
+
+<body>
+
+    <h1>Song Progress</h1>
+
+    <div id="myProgress">
+        <div id="myBar"></div>
+    </div>
+
+    <br>
+    <button onclick="move()">Play Song</button>
+
+    <script>
+        var i = 0;
+        function move() {
+            var start = performance.now();
+            if (i == 0) {
+                i = 1;
+                var elem = document.getElementById("myBar");
+                var width = 0;
+                var id = setInterval(frame, 10);
+                function frame() {
+                    if (width >= 100) {
+                        clearInterval(id);
+                        i = 0;
+                    } else {
+                        var elapsed = (performance.now() - start) / 1000;
+                        width = (elapsed / 20) * 100;
+                        elem.style.width = width + "%";
+                    }
+                }
+            }
+        }
+    </script>
+
+
+</body>
+
+</html>
