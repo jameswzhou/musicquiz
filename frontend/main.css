@@ -54,17 +54,17 @@ div.players{
 .button1{
   position: fixed;
   top: 70%;
-  left: 50%;
+  left: 20%;
 }
 .button2{
   position: fixed;
-  top: 40%;
-  left: 5%;
+  top: 70%;
+  left: 40%;
 }
 .button3{
   position:fixed;
-  top: 50%;
-  left:57%;
+  top: 70%;
+  left:60%;
 }
 .form {
   display: flex;
