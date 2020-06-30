@@ -1,0 +1,123 @@
+header {
+position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: white;
+  font-size: 45px;
+  text-align: center;
+  background-color: #444;
+  padding: 25px;
+  font-family: "Barlow", sans-serif;
+}
+body {
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  background-color: #555;
+  padding: 25px;
+  font-family: "Barlow", sans-serif;
+}
+div.leaderboard{
+  position: fixed;
+  top: 105px;
+  left: 0;
+  width: 15%;
+  height: 400px;
+  color: white;
+  background-color: #666;
+  font-size: 30px;
+  text-align: center;
+  font-family: "Barlow", sans-serif;
+}
+div.players{
+  position:fixed;
+  top: 130px;
+  left: 5px;
+  color: white;
+  font-size: 20px;
+  text-align: left;
+  font-family: "Barlow", sans-serif;
+}
+.button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  background-color: #333;
+}
+.button1{
+  position: fixed;
+  top: 70%;
+  left: 20%;
+}
+.button2{
+  position: fixed;
+  top: 70%;
+  left: 40%;
+}
+.button3{
+  position:fixed;
+  top: 70%;
+  left:60%;
+}
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+}
+.form input {
+  display: inline-block;
+  vertical-align: middle;
+  width: 300px;
+  height: 20px;
+  padding: 10px 5px;
+  float: left;
+  font: bold 15px 'lucida sans', 'trebuchet MS', 'Tahoma';
+  font-style: italic;
+  border: 0;
+  background: #EEE;
+  border-radius: 3px 0 0 3px;
+}
+.form input:focus {
+  outline: 0;
+  background: #fff;
+  box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+}
+.form label {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 5px;
+}
+.form button {
+  overflow: visible;
+  position: relative;
+  float: right;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  height: 40px;
+  width: 72px;
+  font: bold 15px/40px 'lucida sans', 'trebuchet MS', 'Tahoma';
+  color: white;
+  text-transform: uppercase;
+  background: #D83C3C;
+  border-radius: 0 3px 3px 0;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, .3);
+}
+.form button:before {
+  content: '';
+  position: absolute;
+  border-width: 8px 8px 8px 0;
+  border-style: solid solid solid none;
+  border-color: transparent #d83c3c transparent;
+  top: 12px;
+  left: -6px;
+}
