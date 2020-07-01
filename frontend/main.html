@@ -75,6 +75,40 @@ div.players{
   top: 50%;
   left:57%;
 }
+#myProgress {
+  position:fixed;
+  top: 35%;
+  left: 30%;
+  width: 40%;
+  background-color: #ddd;
+}
+
+#myBar {
+  position:fixed;
+  top: 38%;
+  left: 30%;
+  width: 0;
+  height: 10px;
+  background-color: #4CAF50;
+}
+h1{
+  position:fixed;
+  top: 27%;
+  left: 45%;
+}
+
+h2{
+  position:fixed;
+  top: 38%;
+  left: 45%;
+}
+
+h3{
+  position:fixed;
+  top: 38.5%;
+  left: 51.8%;
+}
+
 </style>
 </head>
 
@@ -85,9 +119,15 @@ div.players{
       <li>Violet Evergarden</li>
     </ol></div>
   <button class= "button button2" onclick = "add()">Add </button>
-  <button class= "button button1" onclick = "test()">Go</button>
+  <button class= "button button1" onclick = "test();move()">Go</button>
   <button class= "button button3" onclick = "stop()">Pause</button>
+  <h1>Song Progress</h1>
 
+  <div class="myProgress">
+      <div id="myBar"></div>
+  </div>
+  <h2>Time remaining:</h2>
+  <h3 id=remaining>20</h3>
   <script>  
   var audioElement;
     function add(){
@@ -112,6 +152,32 @@ div.players{
         audioElement.pause();
       }
     }
+    var i = 0;
+        function move() {
+            var start = performance.now();
+            if (i == 0) {
+                i = 1;
+                var progbar = document.getElementById("myBar");
+                var width = 0;
+                var id = setInterval(frame, 10);
+                function frame() {
+                    if (width >= 50) {
+                        clearInterval(id);
+                        i = 0;
+                    } else {
+                        var elapsed = (performance.now() - start) / 1000;
+                        width = (elapsed / 20) * 50;
+                        progbar.style.width = width + "%";
+                        var countdown = document.getElementById("remaining");
+                        var timeremaining = (20 - elapsed);
+                        if(timeremaining>=0){
+                            countdown.textContent = timeremaining.toFixed(0);
+                        }
+                    }
+                }
+            }
+        }
   </script>
 </body>
 </html>
+
