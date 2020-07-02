@@ -26,7 +26,7 @@ body {
   padding: 25px;
   font-family: "Barlow", sans-serif;
 }
-div.leaderboard{
+.leaderboard{
   position: fixed;
   top: 105px;
   left: 0;
@@ -38,7 +38,7 @@ div.leaderboard{
   text-align: center;
   font-family: "Barlow", sans-serif;
 }
-div.players{
+.players{
   position:fixed;
   top: 130px;
   left: 5px;
@@ -51,7 +51,7 @@ div.players{
 .button {
   border: none;
   color: white;
-  padding: 15px 32px;
+  padding: 10px 10px 10px 10px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -82,7 +82,6 @@ div.players{
   width: 40%;
   background-color: #ddd;
 }
-
 #myBar {
   position:fixed;
   top: 38%;
@@ -108,6 +107,53 @@ h3{
   top: 38.5%;
   left: 51.8%;
 }
+.chatarea{
+  position: fixed;
+  top: 105px;
+  right: 0;
+  width: 20%;
+  height: 700px;
+  color: white;
+  background-color: #666;
+  font-size: 30px;
+  text-align: center;
+  font-family: "Barlow", sans-serif;
+}
+
+.chatbox {
+  position: fixed;
+  top: 710px;
+  right: 0;
+  width: 20%;
+  height: 100px;
+  background-color: #333;
+  
+}
+.chatbox textarea{
+  position: relative;
+  resize:none;
+  top: 10px;
+  right:10%;
+  width: 69%;
+  height: 60px;
+  padding: 10px 10px 10px 10px;
+  font: bold 15px 'lucida sans', 'trebuchet MS', 'Tahoma';
+  color:aliceblue;
+  font-style: italic;
+  text-align: left;
+  border: 0;
+  background:#555;
+  border-radius: 3px 0 0 3px;
+}
+
+.button4{
+  position: fixed;
+  top: 730px;
+  right:12px;;
+  border-style: solid;
+  border-width: 1px;
+  border-color: azure;
+}
 
 </style>
 </head>
@@ -121,8 +167,14 @@ h3{
   <button class= "button button2" onclick = "add()">Add </button>
   <button class= "button button1" onclick = "test();move()">Go</button>
   <button class= "button button3" onclick = "stop()">Pause</button>
-  <h1>Song Progress</h1>
+  
+  <div id = "chatarea" class = "chatarea">Yare yare team is ass</div>
+  <div id = "chatbox" class ="chatbox">
+    <textarea type = "text" id = "guessField" placeholder = "Enter a message here"> </textarea>
+    <button class ="button button4">Send </button>
+  </div>
 
+  <h1>Song Progress</h1>
   <div class="myProgress">
       <div id="myBar"></div>
   </div>
