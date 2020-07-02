@@ -6,15 +6,11 @@ const consoleCheats = true;
 
 var tracklist = [];
 var playlists = fs.readFileSync('playlists.txt', 'utf8').split();
-var promiseList = [];
-
-for (const playlist of playlists) {
-	var loadedList = playlistTools.loadPlaylist(playlist);
-	loadedList.then(function (resolve) {
-		playlistTools.mergeTracks(tracklist, resolve);
-		playlistTools.shuffleTracks(tracklist, consoleCheats);
-	});
+for (let k = 0; k < playlists.length; k++) {
+	var list = playlistTools.loadPlaylist(playlists[k]);
+	playlistTools.mergeTracks(tracklist, list)
 }
+playlistTools.shuffleTracks(tracklist, consoleCheats);
 
 const express = require('express');
 const cors = require('cors');
@@ -90,18 +86,18 @@ function checkSongName(guess) {
 
 function checkArtistName(guess) {
 	let song = tracklist[scoreboard.currentSong];
-	for (let i = 0; i < song.contributors.length; i++) {
-		if (song.contributors[i] === guess) {
+	for(let i = 0; i < song.contributors.length; i++){
+		if(song.contributors[i] === guess){
 			return true;
 		}
 	}
 	return false;
 }
 
-function increaseScore(playerId) {
+function increaseScore(playerId){
 	var player = scoreboard.playerList[playerId];
 	player.score += 2;
-	if (player.solvedName && player.solvedArtist) {
+	if(player.solvedName && player.solvedArtist){
 		player.score += 3;
 	}
 }
