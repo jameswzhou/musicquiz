@@ -1,13 +1,7 @@
 function checkSongName(title) {
     var newtitle = title.trim();
     newtitle = newtitle.toLowerCase();
-    var split = newtitle.split("("); 
-    for (var i = 0; i < split.length; i++) {
-        if (!split[i].includes("(")){
-            newtitle = split[i].replace(/[^a-zA-Z0-9]/g, "");
-            return newtitle;
-        }
-    }
+    newtitle = newtitle.replace(/\([^()]*\)/g, '');
     return newtitle;
 }
 
