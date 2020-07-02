@@ -49,9 +49,10 @@ body {
 }
 
 .button {
-  border: none;
+  border-style: solid;
+  border-width: 1px;
   color: white;
-  padding: 10px 10px 10px 10px;
+  padding: 15px 20px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -62,7 +63,7 @@ body {
 }
 .button1{
   position: fixed;
-  top: 50%;
+  top: 70%;
   left: 50%;
 }
 .button2{
@@ -72,7 +73,7 @@ body {
 }
 .button3{
   position:fixed;
-  top: 50%;
+  top: 70%;
   left:57%;
 }
 #myProgress {
@@ -129,6 +130,65 @@ h3{
   background-color: #333;
   
 }
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+}
+.form input {
+  display: inline-block;
+  position: fixed;
+  top: 50%;
+  left:40%;
+  display: flex;
+  vertical-align: middle;
+  width: 300px;
+  height: 20px;
+  padding: 10px 5px;
+  font: bold 15px 'lucida sans', 'trebuchet MS', 'Tahoma';
+  font-style: italic;
+  border: 0;
+  background: #EEE;
+  border-radius: 3px 0 0 3px;
+}
+.form input:focus {
+  outline: 0;
+  background: #fff;
+  box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+}
+.form label {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 5px;
+}
+.form button {
+  overflow: visible;
+  position: fixed;
+  top: 50%;
+  left: 53%;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  height: 40px;
+  width: 72px;
+  font: bold 15px/40px 'lucida sans', 'trebuchet MS', 'Tahoma';
+  color: white;
+  text-transform: uppercase;
+  background: #D83C3C;
+  border-radius: 0 3px 3px 0;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, .3);
+}
+.form button:before {
+  content: '';
+  position: absolute;
+  border-width: 8px 8px 8px 0;
+  border-style: solid solid solid none;
+  border-color: transparent #d83c3c transparent;
+  top: 12px;
+  left: -6px;
+}
 .chatbox textarea{
   position: relative;
   resize:none;
@@ -148,11 +208,10 @@ h3{
 
 .button4{
   position: fixed;
-  top: 730px;
-  right:12px;;
+  top: 745px;
+  right:2px;
   border-style: solid;
   border-width: 1px;
-  border-color: azure;
 }
 
 </style>
@@ -167,7 +226,12 @@ h3{
   <button class= "button button2" onclick = "add()">Add </button>
   <button class= "button button1" onclick = "test();move()">Go</button>
   <button class= "button button3" onclick = "stop()">Pause</button>
-  
+
+  <div class="form"> 
+    <input type = "text" id = "guessField" placeholder = "Guess the song and artist"> 
+    <button type = "submit" class = "guessSubmit" id = "submit"> Enter </button>
+  </div> 
+
   <div id = "chatarea" class = "chatarea">Yare yare team is ass</div>
   <div id = "chatbox" class ="chatbox">
     <textarea type = "text" id = "guessField" placeholder = "Enter a message here"> </textarea>
