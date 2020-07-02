@@ -5,96 +5,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Barlow&display=swap" rel="stylesheet">
-<style>
-header {
-  position: fixed;
-  top: 0%;
-  left: 0%;
-  width: 100%;
-  color: white;
-  font-size: 45px;
-  text-align: center;
-  background-color: #444;
-  padding: 25px;
-  font-family: "Barlow", sans-serif;
-}
-body {
-  color: white;
-  font-size: 12px;
-  text-align: center;
-  background-color: #555;
-  padding: 25px;
-  font-family: "Barlow", sans-serif;
-}
-div.leaderboard{
-  position: fixed;
-  top: 105px;
-  left: 0;
-  width: 15%;
-  height: 400px;
-  color: white;
-  background-color: #666;
-  font-size: 30px;
-  text-align: center;
-  font-family: "Barlow", sans-serif;
-}
-div.players{
-  position:fixed;
-  top: 130px;
-  left: 5px;
-  color: white;
-  font-size: 20px;
-  text-align: left;
-  font-family: "Barlow", sans-serif;
-}
-
-.button {
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  background-color: #333;
-}
-.button1{
-  position: fixed;
-  top: 50%;
-  left: 50%;
-}
-</style>
+<link rel="stylesheet" href="main.css">
 </head>
 
 <body>
-  <header>Muzak Quest</header>
-  <section>
-    <div class = "leaderboard">Best Girls</div>
-    <div class = "players"><ol id = "players">
-      <li>Violet Evergarden</li>
-    </ol></div>
-  </section>
-  <button class="button button1" onclick="test() ;add()">Go</button>
+<header>Muzak Quest</header>
+<div class = "leaderboard">Best Girls</div>
+<div class = "players"><ol id = "players">
+    <li>Violet Evergarden</li>
+  </ol></div>
+<button class= "button button2" onclick = "add()">Add </button>
+<button class= "button button1" onclick = "test()">Go</button>
+<button class= "button button3" onclick = "stop()">Pause</button>
+<div class="form"> 
+    <input type = "text" id = "guessField" placeholder = "Guess the song and artist"> 
+    <button type = "submit" class = "guessSubmit" id = "submit"> Enter </button>
+</div> 
 
-  <script>  
-    function add(){
-      var list = document.getElementById("players");
-      list.innerHTML += "<li>Rachel</li>";
-    }
-    function test(){
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-      var audioElement = new Audio(this.responseText);
-	    audioElement.volume = 0.1;
-	    audioElement.play();
-      }
-    };
-    xhttp.open("GET", "http://localhost:3000/", true);
-    xhttp.send();
-    }
-  </script>
+<script src="main.js"></script>
 </body>
 </html>
