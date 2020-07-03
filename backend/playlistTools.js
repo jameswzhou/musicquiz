@@ -66,7 +66,7 @@ module.exports = {
 function Track(track) {
     this.id = track.id;
     this.title = track.title;
-    this.parseSongTitle = parseSongName(track.title);
+    this.parsedSongTitle = parseSongName(track.title);
     this.preview = track.preview;
     this.image = track.album.cover;
     this.link = track.link;

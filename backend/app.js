@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const playlistTools = require("./playlistTools");
 
-const consoleCheats = false;
+const consoleCheats = true;
 
 var tracklist = [];
 var playlists = fs.readFileSync('playlists.txt', 'utf8').split(' ');
@@ -45,7 +45,7 @@ app.post('/start/', function (req, res) {
 		timer = setInterval(function () {
 			scoreboard.currentSong++;
 			scoreboard.currentSongFile = tracklist[scoreboard.currentSong].preview;
-			for (let i = 1; i < scoreboard.playerList.length; i++) {
+			for (let i = 0; i < scoreboard.playerList.length; i++) {
 				scoreboard.playerList[i].solvedName = false;
 				scoreboard.playerList[i].solvedArtist = false;
 			}
@@ -53,7 +53,7 @@ app.post('/start/', function (req, res) {
 	}
 });
 
-app.put('/guess/', function (req, res) {
+app.put('/guess', function (req, res) {
 	let id = req.param('id');
 	let guess = req.param('data');
 	if (!scoreboard.playerList[id].solvedName && checkSongName(guess)) {
@@ -84,13 +84,13 @@ function Player(name, id) {
 }
 
 function checkSongName(guess) {
-	return tracklist[scoreboard.currentSong].parsedTitle === guess;
+	return tracklist[scoreboard.currentSong].parsedSongTitle === guess;
 }
 
 function checkArtistName(guess) {
 	let song = tracklist[scoreboard.currentSong];
-	for (let i = 0; i < song.contributors.length; i++) {
-		if (song.contributors[i] === guess) {
+	for (let i = 0; i < song.parsedContributors.length; i++) {
+		if (song.parsedContributors[i] === guess) {
 			return true;
 		}
 	}

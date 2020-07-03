@@ -2,15 +2,21 @@ const url = "http://localhost:3000/";
 
 var playerId, roomStarted = false, currentSong;
 
+var audioElement = document.createElement('AUDIO');
+var sauce = document.createElement('source');
+audioElement.appendChild(sauce);
+
 //script to join room
 function join() {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var response = JSON.parse(this.responseText);
-            userId = response.playerId;
+            playerId = response.playerId;
         }
     };
+    document.getElementById("joinButton").classList.add("hidden");
+    document.getElementById("startButton").classList.remove("hidden");
     xhr.open("POST", url + 'join/', true);
     xhr.send();
 }
@@ -41,15 +47,25 @@ function scoreboard() {
 }
 
 function changeSong(preview) {
+    if (typeof audio !== 'undefined') {
+        audio.pause();
+    }
     currentSong = preview;
     //stop current audio (if any), play new audio
+    audio = new Audio(preview);
+    audio.setAttribute("muted", "true");
+    audio.volume = 0.1;
+    audio.play();
 }
 
 //script to start game
 function start() {
+    document.getElementById("startButton").classList.add("hidden");
+    document.getElementById("guessForm").classList.remove("hidden");
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url + 'start/', true);
     xhr.send();
+    setInterval(scoreboard(), 250);
 }
 
 //script to make a guess
@@ -58,16 +74,16 @@ function guess() {
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             if (this.responseText === 'correct') {
-                //show correct answer
+                document.getElementById("message").innerHTML = "Correct!"
             }
             else {
-                //show incorrect answer
+                document.getElementById("message").innerHTML = "Incorrect!"
             }
         }
     };
-    var guess; //get guess string
+    var guess = document.getElementById("guessField").value;; //get guess string
     guess = parseGuess(guess);
-    xhr.open("PUT", `${url}?id=${playerId}&data=${guess}/`, true);
+    xhr.open("PUT", `${url}guess?id=${playerId}&data=${guess}`, true);
     xhr.send();
 }
 
