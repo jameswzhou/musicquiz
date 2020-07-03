@@ -29,10 +29,13 @@ function scoreboard() {
             var response = JSON.parse(this.responseText);
             if (!roomStarted && response.roomStarted) {
                 roomStarted = true;
+                console.log(response.currentSongFile);
                 changeSong(response.currentSongFile);
                 //start room stuff (hide start button etc)
             }
             if (response.currentSongFile !== currentSong) {
+                console.log(response.currentSongFile);
+                console.log(response.currentSong);
                 changeSong(response.currentSongFile);
             }
             for (player of response.playerList) {
@@ -65,7 +68,7 @@ function start() {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url + 'start/', true);
     xhr.send();
-    setInterval(scoreboard(), 250);
+    setInterval(function () {scoreboard()}, 250);
 }
 
 //script to make a guess
