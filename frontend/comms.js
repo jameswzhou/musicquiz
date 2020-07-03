@@ -1,4 +1,4 @@
-const url = "http://localhost:3000/";
+const url = "http://70.77.151.251:25565/";
 
 var playerId, roomStarted = false, currentSong;
 
@@ -19,6 +19,7 @@ function join() {
     document.getElementById("startButton").classList.remove("hidden");
     xhr.open("POST", url + 'join/', true);
     xhr.send();
+    setInterval(function () {scoreboard()}, 250);
 }
 
 //script to retrieve scoreboard (run every 0.25s)
@@ -32,6 +33,8 @@ function scoreboard() {
                 console.log(response.currentSongFile);
                 changeSong(response.currentSongFile);
                 //start room stuff (hide start button etc)
+                document.getElementById("guessForm").classList.remove("hidden");
+                document.getElementById("startButton").classList.add("hidden");
             }
             if (response.currentSongFile !== currentSong) {
                 console.log(response.currentSongFile);
@@ -64,11 +67,9 @@ function changeSong(preview) {
 //script to start game
 function start() {
     document.getElementById("startButton").classList.add("hidden");
-    document.getElementById("guessForm").classList.remove("hidden");
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url + 'start/', true);
     xhr.send();
-    setInterval(function () {scoreboard()}, 250);
 }
 
 //script to make a guess
