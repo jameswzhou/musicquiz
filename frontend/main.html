@@ -5,224 +5,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Barlow&display=swap" rel="stylesheet">
-<style>
-header {
-  position: fixed;
-  top: 0%;
-  left: 0%;
-  width: 100%;
-  color: white;
-  font-size: 45px;
-  text-align: center;
-  background-color: #444;
-  padding: 25px;
-  font-family: "Barlow", sans-serif;
-}
-body {
-  color: white;
-  font-size: 12px;
-  text-align: center;
-  background-color: #555;
-  padding: 25px;
-  font-family: "Barlow", sans-serif;
-}
-.leaderboard{
-  position: fixed;
-  top: 105px;
-  left: 0;
-  width: 15%;
-  height: 400px;
-  color: white;
-  background-color: #666;
-  font-size: 30px;
-  text-align: center;
-  font-family: "Barlow", sans-serif;
-}
-.players{
-  position:fixed;
-  top: 130px;
-  left: 5px;
-  color: white;
-  font-size: 20px;
-  text-align: left;
-  font-family: "Barlow", sans-serif;
-}
-
-.button {
-  border-style: solid;
-  border-width: 1px;
-  color: white;
-  padding: 15px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  background-color: #333;
-}
-.button1{
-  position: fixed;
-  top: 70%;
-  left: 50%;
-}
-.button2{
-  position: fixed;
-  top: 40%;
-  left: 5%;
-}
-.button3{
-  position:fixed;
-  top: 70%;
-  left:57%;
-}
-#myProgress {
-  position:fixed;
-  top: 35%;
-  left: 30%;
-  width: 40%;
-  background-color: #ddd;
-}
-#myBar {
-  position:fixed;
-  top: 38%;
-  left: 30%;
-  width: 0;
-  height: 10px;
-  background-color: #4CAF50;
-}
-h1{
-  position:fixed;
-  top: 27%;
-  left: 45%;
-}
-
-h2{
-  position:fixed;
-  top: 38%;
-  left: 45%;
-}
-
-h3{
-  position:fixed;
-  top: 38.5%;
-  left: 51.8%;
-}
-.chatarea{
-  position: fixed;
-  top: 105px;
-  right: 0;
-  width: 20%;
-  height: 700px;
-  color: white;
-  background-color: #666;
-  font-size: 30px;
-  text-align: center;
-  font-family: "Barlow", sans-serif;
-}
-
-.chatbox {
-  position: fixed;
-  top: 710px;
-  right: 0;
-  width: 20%;
-  height: 100px;
-  background-color: #333;
-  
-}
-form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  min-height: 100vh;
-}
-.form input {
-  display: inline-block;
-  position: fixed;
-  top: 50%;
-  left:40%;
-  display: flex;
-  vertical-align: middle;
-  width: 300px;
-  height: 20px;
-  padding: 10px 5px;
-  font: bold 15px 'lucida sans', 'trebuchet MS', 'Tahoma';
-  font-style: italic;
-  border: 0;
-  background: #EEE;
-  border-radius: 3px 0 0 3px;
-}
-.form input:focus {
-  outline: 0;
-  background: #fff;
-  box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
-}
-.form label {
-  display: inline-block;
-  vertical-align: middle;
-  margin: 5px;
-}
-.form button {
-  overflow: visible;
-  position: fixed;
-  top: 50%;
-  left: 53%;
-  border: 0;
-  padding: 0;
-  cursor: pointer;
-  height: 40px;
-  width: 72px;
-  font: bold 15px/40px 'lucida sans', 'trebuchet MS', 'Tahoma';
-  color: white;
-  text-transform: uppercase;
-  background: #D83C3C;
-  border-radius: 0 3px 3px 0;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, .3);
-}
-.form button:before {
-  content: '';
-  position: absolute;
-  border-width: 8px 8px 8px 0;
-  border-style: solid solid solid none;
-  border-color: transparent #d83c3c transparent;
-  top: 12px;
-  left: -6px;
-}
-.chatbox textarea{
-  position: relative;
-  resize:none;
-  top: 10px;
-  right:10%;
-  width: 69%;
-  height: 60px;
-  padding: 10px 10px 10px 10px;
-  font: bold 15px 'lucida sans', 'trebuchet MS', 'Tahoma';
-  color:aliceblue;
-  font-style: italic;
-  text-align: left;
-  border: 0;
-  background:#555;
-  border-radius: 3px 0 0 3px;
-}
-
-.button4{
-  position: fixed;
-  top: 745px;
-  right:2px;
-  border-style: solid;
-  border-width: 1px;
-}
-
-</style>
+<link rel="stylesheet" href="main.css">
 </head>
 
 <body>
   <header>Muzak Quest</header>
-  <div class = "leaderboard">Best Girls</div>
+  <div class = "leaderboard">Best Girls
   <div class = "players"><ol id = "players">
       <li>Violet Evergarden</li>
-    </ol></div>
+    </ol>
+  </div>
+  </div>
   <button class= "button button2" onclick = "add()">Add </button>
   <button class= "button button1" onclick = "test();move()">Go</button>
   <button class= "button button3" onclick = "stop()">Pause</button>
@@ -234,16 +27,18 @@ form {
 
   <div id = "chatarea" class = "chatarea">Yare yare team is ass</div>
   <div id = "chatbox" class ="chatbox">
-    <textarea type = "text" id = "guessField" placeholder = "Enter a message here"> </textarea>
-    <button class ="button button4">Send </button>
+    <textarea type = "text" id = "guessField" placeholder = "Enter a message here"></textarea>
+    <button> Send </button>
   </div>
-
-  <h1>Song Progress</h1>
+<!--
+  <div class = "songprog">Song Progress</div>
   <div class="myProgress">
       <div id="myBar"></div>
   </div>
-  <h2>Time remaining:</h2>
-  <h3 id=remaining>20</h3>
+
+  <div class = "timeremain">Time remaining:</div>
+  <div  id=remaining class = "timenum">20</div>
+-->
   <script>  
   var audioElement;
     function add(){

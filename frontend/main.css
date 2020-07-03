@@ -1,0 +1,227 @@
+header {
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    color: white;
+    font-size: calc(1.5vh + 1.5vw);
+    text-align: center;
+    background-color: #444;
+    padding: 3.9vh;
+    font-family: "Barlow", sans-serif;
+  }
+  body {
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    background-color: #555;
+    padding: 1vh;
+    font-family: "Barlow", sans-serif;
+  }
+  .leaderboard{
+    position: fixed;
+    --num:calc(1.5vh + 1.5vw);
+    top: calc(var(--num) + 8.7vh);
+    left: 0;
+    width: 15%;
+    height: 50%;
+    color: white;
+    background-color: #666;
+    font-size: calc(1.1vh + 1.1vw);
+    text-align: center;
+    font-family: "Barlow", sans-serif;
+  }
+  .players{
+    flex-wrap: wrap;
+    position:fixed;
+    top: 15vh;
+    left: 0.5vh;
+  }
+  ol{
+    position: absolute;
+    top:2vh; 
+    left: 1.3vw;
+    width: 12.5vw;
+    padding: 10% 0 10% 5%;
+    color: white;
+    font-size: calc(0.8vh + 0.8vw);
+    text-align: left;
+    font-family: "Barlow", sans-serif;
+  }
+  
+  .button {
+    border-style: solid;
+    border-width: 1px;
+    color: white;
+    padding: 2vh 1.5vw;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: calc(0.7vh + 0.7vw);
+    margin: 4px 2px;
+    cursor: pointer;
+    background-color: #333;
+  }
+  .button1{
+    position: fixed;
+    top: 70%;
+    left: 50%;
+  }
+  .button2{
+    position: fixed;
+    top: 69%;
+    left: 5%;
+  }
+  .button3{
+    position: fixed;
+    top: 70%;
+    left:57%;
+  }
+  #myProgress {
+    position:flex;
+    top: 35%;
+    left: 30%;
+    width: 40%;
+    background-color: #ddd;
+  }
+  #myBar {
+    position:fixed;
+    top: 38%;
+    left: 30%;
+    width: 0;
+    height: 10px;
+    background-color: #4CAF50;
+  }
+  .songprog{
+    position:relative;
+    top: 27%;
+    left: 45%;
+  }
+  
+  .timeremain{
+    
+    position:relative;
+    top: 38%;
+    left: 45%;
+  }
+  
+  .timenum{
+    position:relative;
+    top: 38.5%;
+    left: 51.8%;
+  }
+  .chatarea{
+    position: fixed;
+    --num:calc(1.5vh + 1.5vw);
+    top: calc(var(--num) + 8.7vh);
+    right: 0;
+    width: 20%;
+    height: 70%;
+    color: white;
+    background-color: #666;
+    font-size: calc(1.1vh + 1.1vw);
+    text-align: center;
+    font-family: "Barlow", sans-serif;
+  }
+  .form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+  }
+  .form input {
+    vertical-align: middle;
+    width: 15%;
+    height: 20px;
+    padding: 10px 5px;
+    float: left;
+    font: bold 15px 'lucida sans', 'trebuchet MS', 'Tahoma';
+    font-style: italic;
+    border: 0;
+    background: #EEE;
+    border-radius: 3px 0 0 3px;
+  }
+  .form input:focus {
+    outline: 0;
+    background: #fff;
+    box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+  }
+  .form label {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 5px;
+  }
+  .form button {
+    overflow: visible;
+    position: relative;
+    float: right;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    height: 40px;
+    width: 72px;
+    font: bold 15px/40px 'lucida sans', 'trebuchet MS', 'Tahoma';
+    color: white;
+    text-transform: uppercase;
+    background: #D83C3C;
+    border-radius: 0 3px 3px 0;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, .3);
+  }
+  .form button:before {
+    content: '';
+    position: absolute;
+    border-width: 8px 8px 8px 0;
+    border-style: solid solid solid none;
+    border-color: transparent #d83c3c transparent;
+    top: 12px;
+    left: -6px;
+  }
+  
+  .chatbox {
+    display: flex;
+    flex-wrap: nowrap;
+    position: fixed;
+    align-items: center;
+    top: 80%;
+    right: 0;
+    width: 20%;
+    height: 10%;
+    background-color: #333;
+    
+  }
+  .chatbox > textarea{
+    position: relative;
+    resize: none;
+    left: 1.3%;
+    width: 69%;
+    height: 69%;
+    padding: 1vh;
+    font: bold 15px 'lucida sans', 'trebuchet MS', 'Tahoma';
+    color:aliceblue;
+    font-style: italic;
+    text-align: left;
+    border: 0;
+    background:#555;
+  }
+  
+  .chatbox button{
+    position: relative;
+    border-style: solid;
+    border-width: 1px;
+    color: white;
+    top: 20%;
+    left: 3%;
+    width: 72px;
+    height: 50%;
+    text-align: center;
+    padding: 1vh;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: calc(0.7vh + 0.7vw);
+    margin: 4px 2px;
+    cursor: pointer;
+    background-color: #333;
+  }
+  
