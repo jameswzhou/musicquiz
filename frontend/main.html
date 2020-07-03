@@ -9,6 +9,87 @@
 </head>
 
 <body>
+  <header>Muzak Quest</header>
+  <div class = "leaderboard">Best Girls
+  <div class = "players"><ol id = "players">
+      <li>Violet Evergarden</li>
+    </ol>
+  </div>
+  </div>
+  <button class= "button button2" onclick = "add()">Add </button>
+  <button class= "button button1" onclick = "test();move()">Go</button>
+  <button class= "button button3" onclick = "stop()">Pause</button>
+
+  <div class="form"> 
+    <input type = "text" id = "guessField" placeholder = "Guess the song and artist"> 
+    <button type = "submit" class = "guessSubmit" id = "submit"> Enter </button>
+  </div> 
+
+  <div id = "chatarea" class = "chatarea">Yare yare team is ass</div>
+  <div id = "chatbox" class ="chatbox">
+    <textarea type = "text" id = "guessField" placeholder = "Enter a message here"></textarea>
+    <button> Send </button>
+  </div>
+<!--
+  <div class = "songprog">Song Progress</div>
+  <div class="myProgress">
+      <div id="myBar"></div>
+  </div>
+
+  <div class = "timeremain">Time remaining:</div>
+  <div  id=remaining class = "timenum">20</div>
+-->
+  <script>  
+  var audioElement;
+    function add(){
+      var list = document.getElementById("players");
+      list.innerHTML += "<li>Rachel</li>";
+    }
+    function test(){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+      audioElement = new Audio(this.responseText);
+	    audioElement.volume = 0.1;
+	    audioElement.play();
+      }
+    };
+    xhttp.open("GET", "http://localhost:3000/", true);
+    xhttp.send();
+    }
+
+    function stop(){
+      if(!audioElement.paused){
+        audioElement.pause();
+      }
+    }
+    var i = 0;
+        function move() {
+            var start = performance.now();
+            if (i == 0) {
+                i = 1;
+                var progbar = document.getElementById("myBar");
+                var width = 0;
+                var id = setInterval(frame, 10);
+                function frame() {
+                    if (width >= 50) {
+                        clearInterval(id);
+                        i = 0;
+                    } else {
+                        var elapsed = (performance.now() - start) / 1000;
+                        width = (elapsed / 20) * 50;
+                        progbar.style.width = width + "%";
+                        var countdown = document.getElementById("remaining");
+                        var timeremaining = (20 - elapsed);
+                        if(timeremaining>=0){
+                            countdown.textContent = timeremaining.toFixed(0);
+                        }
+                    }
+                }
+            }
+        }
+  </script>
+=======
 <header>Muzak Quest</header>
 <div class = "leaderboard">Best Girls</div>
 <div class = "players"><ol id = "players">
@@ -25,3 +106,4 @@
 <script src="main.js"></script>
 </body>
 </html>
+
