@@ -2,11 +2,10 @@ const fs = require('fs');
 
 const playlistTools = require("./playlistTools");
 
-const consoleCheats = true;
+const consoleCheats = false;
 
 var tracklist = [];
-var playlists = fs.readFileSync('playlists.txt', 'utf8').split();
-var promiseList = [];
+var playlists = fs.readFileSync('playlists.txt', 'utf8').split(' ');
 
 for (const playlist of playlists) {
 	var loadedList = playlistTools.loadPlaylist(playlist);

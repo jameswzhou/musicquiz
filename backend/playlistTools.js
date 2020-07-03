@@ -81,10 +81,20 @@ Track.prototype.addContributor = function (contributorName) {
     this.parsedContributors.push(parseArtistName(contributorName));
 }
 
-function parseSongName(name) {
-    return name;
+function parseSongName(title) {
+    var newtitle = title.trim();
+    newtitle = newtitle.toLowerCase();
+    newtitle = newtitle.replace(/\([^()]*\)/g, '');
+    newtitle = newtitle.replace(/[^a-zA-Z0-9]/g, "");
+    newtitle = newtitle.replace(" ", "");
+    return newtitle;
 }
 
 function parseArtistName(name) {
-    return name;
+    var newname = name.trim();
+    newname = newname.toLowerCase();
+    newname = newname.replace("é", "e");
+    newname = newname.replace(/[^a-zA-Z0-9]/g, "");
+    newname = newname.replace(" ", "");
+    return newname;
 }
