@@ -20,10 +20,28 @@
   <button class= "button button1" onclick = "test();move()">Go</button>
   <button class= "button button3" onclick = "stop()">Pause</button>
 
-  <div class="form"> 
-    <input type = "text" id = "guessField" placeholder = "Guess the song and artist"> 
-    <button type = "submit" class = "guessSubmit" id = "submit"> Enter </button>
-  </div> 
+
+  <div class = "main">
+  <div class="start">
+    <button class = "button" id = "joinButton" onclick = "join()"> Join Game </button>
+    <button class = "button hidden" id = "startButton" onclick = "start()"> Start </button>
+  </div>
+	<div class = "display">
+		<div class = "message">
+			<span id="message"></span>
+		</div>
+		<div class = "countdown"> 
+			<span id="time"></span>
+		</div>
+	</div>
+	<div class="form hidden" id = "guessForm"> 
+	    <input type = "text" id = "guessField" placeholder = "Guess the song and artist"> 
+	    <button type = "submit" class = "guessSubmit" id = "submit" onclick = "guess()"> Enter </button>
+	</div> 
+	<div class = "recentsong">
+			<span id="artist"></span> - <span id="song"></span>
+	</div>
+  </div>
 
   <div id = "chatarea" class = "chatarea">Yare yare team is ass</div>
   <div id = "chatbox" class ="chatbox">
@@ -39,56 +57,8 @@
   <div class = "timeremain">Time remaining:</div>
   <div  id=remaining class = "timenum">20</div>
 -->
-  <script>  
-  var audioElement;
-    function add(){
-      var list = document.getElementById("players");
-      list.innerHTML += "<li>Rachel</li>";
-    }
-    function test(){
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-      audioElement = new Audio(this.responseText);
-	    audioElement.volume = 0.1;
-	    audioElement.play();
-      }
-    };
-    xhttp.open("GET", "http://localhost:3000/", true);
-    xhttp.send();
-    }
-
-    function stop(){
-      if(!audioElement.paused){
-        audioElement.pause();
-      }
-    }
-    var i = 0;
-        function move() {
-            var start = performance.now();
-            if (i == 0) {
-                i = 1;
-                var progbar = document.getElementById("myBar");
-                var width = 0;
-                var id = setInterval(frame, 10);
-                function frame() {
-                    if (width >= 50) {
-                        clearInterval(id);
-                        i = 0;
-                    } else {
-                        var elapsed = (performance.now() - start) / 1000;
-                        width = (elapsed / 20) * 50;
-                        progbar.style.width = width + "%";
-                        var countdown = document.getElementById("remaining");
-                        var timeremaining = (20 - elapsed);
-                        if(timeremaining>=0){
-                            countdown.textContent = timeremaining.toFixed(0);
-                        }
-                    }
-                }
-            }
-        }
-  </script>
+  <script src="main.js"></script>
+  <script src="comms.js"></script>
 </body>
 </html>
 
