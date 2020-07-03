@@ -1,4 +1,4 @@
-const url = "http://70.77.151.251:25565/";
+const url = "http://70.77.251.191:25565/";
 
 var playerId, roomStarted = false, currentSong;
 
