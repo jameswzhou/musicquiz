@@ -1,4 +1,5 @@
-const url = "http://70.77.251.191:25565/";
+const url = "http://localhost:25565/";
+const songTime = 20;
 
 var playerId, roomStarted = false, currentSong;
 
@@ -59,6 +60,17 @@ function changeSong(preview) {
     currentSong = preview;
     //stop current audio (if any), play new audio
     audio = new Audio(preview);
+    audio.addEventListener("timeupdate", function() {
+        var timer = document.getElementById("time"),
+            duration = songTime,
+            currentTime = parseInt(audio.currentTime),
+            timeLeft = duration - currentTime,
+            s;
+        console.log(currentTime);
+        s = timeLeft;
+        timer.innerHTML = ""+s;
+    }, false)
+
     audio.setAttribute("muted", "true");
     audio.volume = 0.1;
     audio.play();
