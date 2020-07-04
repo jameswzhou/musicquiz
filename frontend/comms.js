@@ -124,6 +124,9 @@ function scoreboard() {
       //update previous song display
       document.getElementById("artist").innerHTML = response.previousSong.artist;
       document.getElementById("song").innerHTML = response.previousSong.title;
+      document.getElementById("albumcover").innerHTML = `
+          <img id="cover" src=${response.previousSong.cover}></img>
+      `;
       //update previous song using following data:
       //response.previousSong.title
       //response.previousSong.cover
