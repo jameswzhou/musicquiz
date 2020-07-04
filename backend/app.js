@@ -20,7 +20,7 @@ const cors = require('cors');
 const app = express();
 const port = 25565;
 
-var scoreboard = { roomStarted: false, currentSong: 0, currentSongFile: "", playerList: [] };
+var scoreboard = { roomStarted: false, currentSong: 0, currentSongFile: "", playerList: [], previousSong: {} };
 var nameList = new Array('iAmSpeed', 'uwu', 'big pp', 'plussyfan9', 'b@tman', 'javascript time', 'we live in a society', '◔ ⌣ ◔', 'herro', 'Barack Obama');
 var timer;
 
@@ -43,6 +43,10 @@ app.post('/start/', function (req, res) {
 		console.log('Starting room.');
 		scoreboard.currentSongFile = tracklist[0].preview;
 		timer = setInterval(function () {
+			scoreboard.previousSong.title = tracklist[scoreboard.currentSong].title;
+			scoreboard.previousSong.cover = tracklist[scoreboard.currentSong].image;
+			scoreboard.previousSong.link = tracklist[scoreboard.currentSong].link;
+			scoreboard.previousSong.artist = tracklist[scoreboard.currentSong].contributors[0];
 			scoreboard.currentSong++;
 			scoreboard.currentSongFile = tracklist[scoreboard.currentSong].preview;
 			for (let i = 0; i < scoreboard.playerList.length; i++) {
