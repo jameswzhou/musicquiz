@@ -1,11 +1,27 @@
 const url = "http://localhost:25565/";
-const songTime = 20;
 
+/* COUNTDOWN TIMER VARIABLES */
+const FULL_DASH_ARRAY = 283;
+const WARNING_THRESHOLD = 10;
+const ALERT_THRESHOLD = 5;
+
+const COLOR_CODES = {
+  info: {
+    color: "green"
+  },
+  warning: {
+    color: "orange",
+    threshold: WARNING_THRESHOLD
+  },
+  alert: {
+    color: "red",
+    threshold: ALERT_THRESHOLD
+  }
+};
+
+const TIME_LIMIT = 20;
+let remainingPathColor = COLOR_CODES.info.color;
 var playerId, roomStarted = false, currentSong;
-
-var audioElement = document.createElement('AUDIO');
-var sauce = document.createElement('source');
-audioElement.appendChild(sauce);
 
 //script to join room
 function join() {
@@ -31,15 +47,12 @@ function scoreboard() {
             var response = JSON.parse(this.responseText);
             if (!roomStarted && response.roomStarted) {
                 roomStarted = true;
-                console.log(response.currentSongFile);
                 changeSong(response.currentSongFile);
                 //start room stuff (hide start button etc)
                 document.getElementById("guessForm").classList.remove("hidden");
                 document.getElementById("startButton").classList.add("hidden");
             }
             if (response.currentSongFile !== currentSong) {
-                console.log(response.currentSongFile);
-                console.log(response.currentSong);
                 changeSong(response.currentSongFile);
             }
             for (player of response.playerList) {
@@ -62,14 +75,19 @@ function changeSong(preview) {
     audio = new Audio(preview);
     audio.addEventListener("timeupdate", function() {
         var timer = document.getElementById("time"),
-            duration = songTime,
+            duration = TIME_LIMIT,
+            timePassed = 0;
+            timerInterval = null;
             currentTime = parseInt(audio.currentTime),
-            timeLeft = duration - currentTime,
-            s;
-        console.log(currentTime);
-        s = timeLeft;
-        timer.innerHTML = ""+s;
-    }, false)
+            timeLeft = duration - currentTime;
+        timePassed = timePassed += 1;
+        setCircleDasharray();
+        setRemainingPathColor(timeLeft);
+        timer.innerHTML = ""+timeLeft;
+
+        if (timePassed === 0) {
+            onTimesUp();
+        }}, false);
 
     audio.setAttribute("muted", "true");
     audio.volume = 0.1;
@@ -78,7 +96,33 @@ function changeSong(preview) {
 
 //script to start game
 function start() {
+    document.getElementById("countdown").innerHTML = `
+    <div class="base-timer">
+      <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <g class="base-timer__circle">
+          <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+          <path
+            id="base-timer-path-remaining"
+            stroke-dasharray="283"
+            class="base-timer__path-remaining animate ${remainingPathColor}"
+            d="
+              M 50, 50
+              m -45, 0
+              a 45,45 0 1,0 90,0
+              a 45,45 0 1,0 -90,0
+            "
+          ></path>
+        </g>
+      </svg>
+      <span id="time" class="base-timer__label">
+      </span>
+    </div>
+    `;
     document.getElementById("startButton").classList.add("hidden");
+    document.getElementById("countdown").classList.remove("hidden");
+    document.getElementById("guessForm").classList.remove("hidden");
+    document.getElementById("message").classList.remove("hidden");
+    document.getElementById("recentsong").classList.remove("hidden");
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url + 'start/', true);
     xhr.send();
@@ -90,10 +134,14 @@ function guess() {
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             if (this.responseText === 'correct') {
+                document.getElementById("message").classList.remove("hidden");
                 document.getElementById("message").innerHTML = "Correct!"
+                setTimeout(function(){ document.getElementById("message").classList.add("hidden"); }, 3000);
             }
             else {
+                document.getElementById("message").classList.remove("hidden");
                 document.getElementById("message").innerHTML = "Incorrect!"
+                setTimeout(function(){ document.getElementById("message").classList.add("hidden"); }, 3000);
             }
         }
     };
@@ -110,4 +158,55 @@ function parseGuess(guess) {
     newguess = newguess.replace(/[^a-zA-Z0-9]/g, "");
     newguess = newguess.replace(" ", "");
     return newguess;
+}
+
+/* COUNTDOWN TIMER FUNCTIONS */
+function onTimesUp() {
+  clearInterval(timerInterval);
+  path = document.getElementById("base-timer-path-remaining");
+  path.classList.remove("animate")
+  void path.offsetWidth;
+
+  path.classList.add("animate");
+}
+
+function setRemainingPathColor(timeLeft) {
+  const { alert, warning, info } = COLOR_CODES;
+  if (timeLeft === 20) {
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.remove(alert.color);
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.add(info.color);
+  }
+  if (timeLeft <= alert.threshold) {
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.remove(warning.color);
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.add(alert.color);
+  } else if (timeLeft <= warning.threshold) {
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.remove(info.color);
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.add(warning.color);
+  }
+}
+
+function calculateTimeFraction() {
+  const rawTimeFraction = timeLeft / TIME_LIMIT;
+  return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+}
+
+function setCircleDasharray() {
+  const circleDasharray = `${(
+    calculateTimeFraction() * FULL_DASH_ARRAY
+  ).toFixed(0)} 283`;
+  document
+    .getElementById("base-timer-path-remaining")
+    .setAttribute("stroke-dasharray", circleDasharray);
 }

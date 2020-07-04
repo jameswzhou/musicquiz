@@ -7,12 +7,22 @@ header {
     font-size: calc(1.5vh + 1.5vw);
     text-align: center;
     background-color: #444;
-    padding: 3.9vh;
+    padding: 2.9vh;
     font-family: "Barlow", sans-serif;
+    margin: auto;
 }
 body {
   color: white;
   font-size: 12px;
+  text-align: center;
+  background-color: #555;
+  padding: 1vh;
+  font-family: "Barlow", sans-serif;
+}
+
+h3 {
+  color: white;
+  font-size: 22px;
   text-align: center;
   background-color: #555;
   padding: 1vh;
@@ -64,21 +74,6 @@ ol{
   margin: 4px 2px;
   cursor: pointer;
   background-color: #333;
-}
-.button1{
-  position: fixed;
-  top: 70%;
-  left: 50%;
-}
-.button2{
-  position: fixed;
-  top: 69%;
-  left: 5%;
-}
-.button3{
-  position: fixed;
-  top: 70%;
-  left:57%;
 }
 
 /* PROGRESS BAR */
@@ -184,18 +179,90 @@ ol{
   height: 600px;
   margin: auto;
   vertical-align: middle;
-  margin: 100px 0 0 0;
+  position: absolute;
+  top: 20px;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
+
+/* COUNTDOWN TIMER*/
+.base-timer {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  display: block;
+  margin: auto;
+}
+
+.base-timer__svg {
+  transform: scaleX(-1);
+}
+
+.base-timer__circle {
+  fill: none;
+  stroke: none;
+}
+
+.base-timer__path-elapsed {
+  stroke-width: 7px;
+  stroke: grey;
+}
+
+.base-timer__path-remaining {
+  stroke-width: 7px;
+  stroke-linecap: round;
+  transform: rotate(90deg);
+  transform-origin: center;
+  fill-rule: nonzero;
+  stroke: currentColor;
+}
+
+.base-timer__path-remaining.animate {
+  stroke-width: 7px;
+  stroke-linecap: round;
+  transform: rotate(90deg);
+  transition: 1s linear all;
+  transform-origin: center;
+  fill-rule: nonzero;
+  stroke: currentColor;
+}
+
+.base-timer__path-remaining.green {
+  color: rgb(65, 184, 131);
+}
+
+.base-timer__path-remaining.orange {
+  color: orange;
+}
+
+.base-timer__path-remaining.red {
+  color: red;
+}
+
+.base-timer__label {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+}
+
+/* GUESSING FORM*/
 .form {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  min-height: 100vh;
+  padding-top: 50px;
+
 }
 .form input {
   vertical-align: middle;
-  width: 15%;
+  width: 45%;
   height: 20px;
   padding: 10px 5px;
   float: left;
@@ -243,6 +310,10 @@ ol{
 
 .hidden {
   visibility: hidden;
+}
+
+#recentsong p{
+  display: inline-block;
 }
 
 
