@@ -20,7 +20,7 @@ const cors = require('cors');
 const app = express();
 const port = 25565;
 
-var scoreboard = { roomStarted: false, currentSong: 0, currentSongFile: "", playerList: [], previousSong: {} };
+var scoreboard = { roomStarted: false, currentSong: 0, currentSongFile: "", playerList: [], previousSong: {"title": "", "cover": "", "link":"", "artist": ""} };
 var nameList = new Array('iAmSpeed', 'uwu', 'big pp', 'plussyfan9', 'b@tman', 'javascript time', 'we live in a society', '◔ ⌣ ◔', 'herro', 'Barack Obama');
 var timer;
 
