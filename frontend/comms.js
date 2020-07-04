@@ -77,75 +77,111 @@ function join() {
 
 //script to retrieve scoreboard (run every 0.25s)
 function scoreboard() {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            var response = JSON.parse(this.responseText);
-            if (!roomStarted && response.roomStarted) {
-                roomStarted = true;
-                changeSong(response.currentSongFile);
-                //start room stuff (hide start button etc)
-                document.getElementById("startButton").classList.add("hidden");
-                document.getElementById("countdown").classList.remove("hidden");
-                document.getElementById("guessForm").classList.remove("hidden");
-                document.getElementById("message").classList.remove("hidden");
-                document.getElementById("recentsong").classList.remove("hidden");
-            }
-            if (response.currentSongFile !== currentSong) {
-                changeSong(response.currentSongFile);
-            }
-            for (player of response.playerList) {
-                //player.score
-                //player.solvedName
-                //player.solvedArtist
-            }
-            //update previous song display
-            document.getElementById("artist").innerHTML = response.previousSong.artist;
-            document.getElementById("song").innerHTML = response.previousSong.title;
-            //update previous song using following data:
-            //response.previousSong.title
-            //response.previousSong.cover
-            //response.previousSong.artist
-            //response.previousSong.link
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var response = JSON.parse(this.responseText);
+      if (!roomStarted && response.roomStarted) {
+        roomStarted = true;
+        changeSong(response.currentSongFile);
+        //start room stuff (hide start button etc)
+        document.getElementById("startButton").classList.add("hidden");
+        document.getElementById("countdown").classList.remove("hidden");
+        document.getElementById("guessForm").classList.remove("hidden");
+        document.getElementById("message").classList.remove("hidden");
+        document.getElementById("recentsong").classList.remove("hidden");
+      }
+      if (response.currentSongFile !== currentSong) {
+        changeSong(response.currentSongFile);
+      }
+      response.playerList.sort(comparePlayers);
+      var list = document.getElementById("players");
+      list.innerHTML = "";
+      for (player of response.playerList) {
+        if (player.playerId == playerId) {
+          if (player.solvedName && player.solvedArtist) {
+            list.innerHTML += "<b><li style = \"color:green\">" + player.score + " - " + player.name + "</li></b>";
+          }
+          else if (player.solvedName || player.solvedArtist) {
+            list.innerHTML += "<b><li style = \"color:yellow\" >" + player.score + " - " + player.name + "</li></b>";
+          }
+          else {
+            list.innerHTML += "<b><li>" + player.score + " - " + player.name + "</li></b>";
+          }
         }
-    };
-    xhr.open("GET", url + 'scoreboard/', true);
-    xhr.send();
+        else {
+          if (player.solvedName && player.solvedArtist) {
+            list.innerHTML += "<li style = \"color:green\">" + player.score + " - " + player.name + "</li>";;
+          }
+          else if (player.solvedName || player.solvedArtist) {
+            list.innerHTML += "<li style = \"color:yellow\">" + player.score + " - " + player.name + "</li>";
+          }
+          else {
+            list.innerHTML += "<li>" + player.score + " - " + player.name + "</li>";
+          }
+        }
+      }
+      //update previous song display
+      document.getElementById("artist").innerHTML = response.previousSong.artist;
+      document.getElementById("song").innerHTML = response.previousSong.title;
+      //update previous song using following data:
+      //response.previousSong.title
+      //response.previousSong.cover
+      //response.previousSong.artist
+      //response.previousSong.link
+    }
+  };
+  xhr.open("GET", url + 'scoreboard/', true);
+  xhr.send();
+}
+
+function comparePlayers(a, b) {
+  var result = 0;
+  if (a.score > b.score) {
+    result = -1;
+  }
+  else if (a.score < b.score) {
+    result = 1;
+  }
+  else {
+    result = 0;
+  }
+  return result;
 }
 
 function changeSong(preview) {
-    if (typeof audio !== 'undefined') {
-        audio.pause();
+  if (typeof audio !== 'undefined') {
+    audio.pause();
+  }
+  currentSong = preview;
+  //reset input form
+  document.getElementById("guessField").value = "";
+  //stop current audio (if any), play new audio
+  audio = new Audio(preview);
+  audio.addEventListener("timeupdate", function () {
+    var timer = document.getElementById("time"),
+      duration = TIME_LIMIT,
+      timePassed = 0;
+    timerInterval = null;
+    currentTime = parseInt(audio.currentTime),
+      timeLeft = duration - currentTime;
+    timePassed = timePassed += 1;
+    setCircleDasharray();
+    setRemainingPathColor(timeLeft);
+    timer.innerHTML = "" + timeLeft;
+
+    if (timePassed === 0) {
+      onTimesUp();
     }
-    currentSong = preview;
-    //reset input form
-    document.getElementById("guessField").value = ""; 
-    //stop current audio (if any), play new audio
-    audio = new Audio(preview);
-    audio.addEventListener("timeupdate", function() {
-        var timer = document.getElementById("time"),
-            duration = TIME_LIMIT,
-            timePassed = 0;
-            timerInterval = null;
-            currentTime = parseInt(audio.currentTime),
-            timeLeft = duration - currentTime;
-        timePassed = timePassed += 1;
-        setCircleDasharray();
-        setRemainingPathColor(timeLeft);
-        timer.innerHTML = ""+timeLeft;
+  }, false);
 
-        if (timePassed === 0) {
-            onTimesUp();
-        }}, false);
-
-    audio.setAttribute("muted", "true");
-    audio.volume = 0.1;
-    audio.play();
+  audio.setAttribute("muted", "true");
+  audio.volume = 0.1;
+  audio.play();
 }
 
 //script to start game
 function start() {
-
     //hide start/join buttons and reveal guessing fields
     document.getElementById("startButton").classList.add("hidden");
     document.getElementById("countdown").classList.remove("hidden");
@@ -160,36 +196,36 @@ function start() {
 
 //script to make a guess
 function guess() {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            if (this.responseText === 'correct') {
-                document.getElementById("message").classList.remove("hidden");
-                document.getElementById("message").innerHTML = "Correct!"
-                setTimeout(function(){ document.getElementById("message").classList.add("hidden"); }, 3000);
-            }
-            else {
-                document.getElementById("message").classList.remove("hidden");
-                document.getElementById("message").innerHTML = "Incorrect!"
-                setTimeout(function(){ document.getElementById("message").classList.add("hidden"); }, 3000);
-            }
-        }
-    };
-    var guess = document.getElementById("guessField").value;
-    document.getElementById("guessField").value = ""; 
-    //get guess string
-    guess = parseGuess(guess);
-    xhr.open("PUT", `${url}guess?id=${playerId}&data=${guess}`, true);
-    xhr.send();
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.responseText === 'correct') {
+        document.getElementById("message").classList.remove("hidden");
+        document.getElementById("message").innerHTML = "Correct!"
+        setTimeout(function () { document.getElementById("message").classList.add("hidden"); }, 3000);
+      }
+      else {
+        document.getElementById("message").classList.remove("hidden");
+        document.getElementById("message").innerHTML = "Incorrect!"
+        setTimeout(function () { document.getElementById("message").classList.add("hidden"); }, 3000);
+      }
+    }
+  };
+  var guess = document.getElementById("guessField").value;
+  document.getElementById("guessField").value = "";
+  //get guess string
+  guess = parseGuess(guess);
+  xhr.open("PUT", `${url}guess?id=${playerId}&data=${guess}`, true);
+  xhr.send();
 }
 
 function parseGuess(guess) {
-    var newguess = guess.trim();
-    newguess = newguess.toLowerCase();
-    newguess = newguess.replace(/\([^()]*\)/g, '');
-    newguess = newguess.replace(/[^a-zA-Z0-9]/g, "");
-    newguess = newguess.replace(" ", "");
-    return newguess;
+  var newguess = guess.trim();
+  newguess = newguess.toLowerCase();
+  newguess = newguess.replace(/\([^()]*\)/g, '');
+  newguess = newguess.replace(/[^a-zA-Z0-9]/g, "");
+  newguess = newguess.replace(" ", "");
+  return newguess;
 }
 
 /* COUNTDOWN TIMER FUNCTIONS */
