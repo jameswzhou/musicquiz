@@ -9,6 +9,93 @@
 </head>
 
 <body>
+
+<style>
+<!--
+	delete this <stlye> to get rid of the audio controller
+-->
+	
+audio {
+  position: fixed;
+  left: 10px;
+  bottom: 10px;
+  width: calc(100% - 20px);
+}
+
+</style>
+
+  <script>
+   
+  window.onload = function(){
+  
+  var file = document.getElementById("thefile");
+  var audio = document.getElementById("audio");
+  
+  file.onchange = function(){
+    var files = this.files;
+    audio.src = URL.createObjectURL(files[0]);
+    audio.load();
+    audio.play();
+    var context = new AudioContext();
+    var src = context.createMediaElementSource(audio);
+    var analyser = context.createAnalyser();
+
+    var canvas = document.getElementById("canvas");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    var ctx = canvas.getContext("2d");
+
+    src.connect(analyser);
+    analyser.connect(context.destination);
+
+    analyser.fftSize = 256;
+
+    var bufferLength = analyser.frequencyBinCount;
+    console.log(bufferLength);
+
+    var dataArray = new Uint8Array(bufferLength);
+
+    var WIDTH = canvas.width;
+    var HEIGHT = canvas.height;
+
+    var barWidth = (WIDTH / bufferLength) * 2.5;
+    var barHeight;
+    var x = 0;
+
+    function renderFrame() {
+      requestAnimationFrame(renderFrame);
+
+      x = 0;
+
+      analyser.getByteFrequencyData(dataArray);
+
+      ctx.fillStyle = "#555";
+      ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+      for (var i = 0; i < bufferLength; i++) {
+        barHeight = dataArray[i];
+        
+        var r = barHeight + (25 * (i/bufferLength));
+        var g = 250 * (i/bufferLength);
+        var b = 50;
+
+        ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+        ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
+
+        x += barWidth + 1;
+      }
+    }
+
+    audio.play();
+    renderFrame();
+  };
+};
+    </script>
+    <div id="content">
+        <input type="file" id="thefile" accept="audio/*" />
+        <canvas id="canvas"></canvas>
+        <audio id="audio" controls></audio>
+      </div>
   <header>Muzak Quest</header>
   <div class = "leaderboard">Best Girls
   <div class = "players"><ol id = "players">
@@ -26,21 +113,21 @@
     <button class = "button" id = "joinButton" onclick = "join()"> Join Game </button>
     <button class = "button hidden" id = "startButton" onclick = "start()"> Start </button>
   </div>
-	<div class = "display">
-		<div class = "message">
-			<span id="message"></span>
-		</div>
-		<div class = "countdown"> 
-			<span id="time"></span>
-		</div>
-	</div>
-	<div class="form hidden" id = "guessForm"> 
-	    <input type = "text" id = "guessField" placeholder = "Guess the song and artist"> 
-	    <button type = "submit" class = "guessSubmit" id = "submit" onclick = "guess()"> Enter </button>
-	</div> 
-	<div class = "recentsong">
-			<span id="artist"></span> - <span id="song"></span>
-	</div>
+  <div class = "display">
+    <div class = "message">
+      <span id="message"></span>
+    </div>
+    <div class = "countdown"> 
+      <span id="time"></span>
+    </div>
+  </div>
+  <div class="form hidden" id = "guessForm"> 
+      <input type = "text" id = "guessField" placeholder = "Guess the song and artist"> 
+      <button type = "submit" class = "guessSubmit" id = "submit" onclick = "guess()"> Enter </button>
+  </div> 
+  <div class = "recentsong">
+      <span id="artist"></span> - <span id="song"></span>
+  </div>
   </div>
 
   <div id = "chatarea" class = "chatarea">Yare yare team is ass</div>
@@ -53,7 +140,6 @@
   <div class="myProgress">
       <div id="myBar"></div>
   </div>
-
   <div class = "timeremain">Time remaining:</div>
   <div  id=remaining class = "timenum">20</div>
 -->
@@ -61,4 +147,6 @@
   <script src="comms.js"></script>
 </body>
 </html>
+
+
 
