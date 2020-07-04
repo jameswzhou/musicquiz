@@ -1,6 +1,5 @@
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-//TODO change system to retrieve each track individually (to handle multiple artists) and store into a Track object
 module.exports = {
     async loadPlaylist(playlistId) {
         var xhttp = new XMLHttpRequest();

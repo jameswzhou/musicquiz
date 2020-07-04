@@ -36,7 +36,7 @@ function join() {
     document.getElementById("startButton").classList.remove("hidden");
     xhr.open("POST", url + 'join/', true);
     xhr.send();
-    setInterval(function () {scoreboard()}, 250);
+    setInterval(function () { scoreboard() }, 250);
 }
 
 //script to retrieve scoreboard (run every 0.25s)
@@ -60,6 +60,11 @@ function scoreboard() {
                 //player.solvedName
                 //player.solvedArtist
             }
+            //update previous song using following data:
+            //response.previousSong.title
+            //response.previousSong.cover
+            //response.previousSong.artist
+            //response.previousSong.link
         }
     };
     xhr.open("GET", url + 'scoreboard/', true);
