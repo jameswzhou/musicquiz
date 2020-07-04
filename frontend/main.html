@@ -16,10 +16,6 @@
     </ol>
   </div>
   </div>
-  <button class= "button button2" onclick = "add()">Add </button>
-  <button class= "button button1" onclick = "test();move()">Go</button>
-  <button class= "button button3" onclick = "stop()">Pause</button>
-
 
   <div class = "main">
   <div class="start">
@@ -28,17 +24,17 @@
   </div>
 	<div class = "display">
 		<div class = "message">
-			<span id="message"></span>
+			<h3> <span class = "hidden" id="message"></span> </h3>
 		</div>
-		<div class = "countdown"> 
-			<span id="time"></span>
+		<div class = "hidden" id = "countdown"> 
 		</div>
 	</div>
 	<div class="form hidden" id = "guessForm"> 
 	    <input type = "text" id = "guessField" placeholder = "Guess the song and artist"> 
 	    <button type = "submit" class = "guessSubmit" id = "submit" onclick = "guess()"> Enter </button>
 	</div> 
-	<div class = "recentsong">
+	<div class = "hidden" id="recentsong">
+      <p> Last song played: </p>
 			<span id="artist"></span> - <span id="song"></span>
 	</div>
   </div>
