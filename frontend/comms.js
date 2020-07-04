@@ -4,6 +4,7 @@ const url = "http://localhost:25565/";
 const FULL_DASH_ARRAY = 283;
 const WARNING_THRESHOLD = 10;
 const ALERT_THRESHOLD = 5;
+const TIME_LIMIT = 20;
 
 const COLOR_CODES = {
   info: {
@@ -18,9 +19,8 @@ const COLOR_CODES = {
     threshold: ALERT_THRESHOLD
   }
 };
-
-const TIME_LIMIT = 20;
 let remainingPathColor = COLOR_CODES.info.color;
+
 var playerId, roomStarted = false, currentSong;
 
 //script to join room
@@ -60,6 +60,9 @@ function scoreboard() {
                 //player.solvedName
                 //player.solvedArtist
             }
+            //update previous song display
+            document.getElementById("artist").innerHTML = response.previousSong.artist;
+            document.getElementById("song").innerHTML = response.previousSong.title;
             //update previous song using following data:
             //response.previousSong.title
             //response.previousSong.cover
@@ -76,6 +79,8 @@ function changeSong(preview) {
         audio.pause();
     }
     currentSong = preview;
+    //reset input form
+    document.getElementById("guessField").value = ""; 
     //stop current audio (if any), play new audio
     audio = new Audio(preview);
     audio.addEventListener("timeupdate", function() {
@@ -101,6 +106,7 @@ function changeSong(preview) {
 
 //script to start game
 function start() {
+    //set html for the countdown timer
     document.getElementById("countdown").innerHTML = `
     <div class="base-timer">
       <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -123,11 +129,23 @@ function start() {
       </span>
     </div>
     `;
+
+    //hide start/join buttons and reveal guessing fields
     document.getElementById("startButton").classList.add("hidden");
     document.getElementById("countdown").classList.remove("hidden");
     document.getElementById("guessForm").classList.remove("hidden");
     document.getElementById("message").classList.remove("hidden");
     document.getElementById("recentsong").classList.remove("hidden");
+
+    //guessing form submits with "enter" keypress
+    var input = document.getElementById("guessField");
+    console.log(input);
+    input.addEventListener("keypress", function(event) {
+    if (event.keyCode == 13) {
+      event.preventDefault();
+      document.getElementById("submit").click();
+    }});
+
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url + 'start/', true);
     xhr.send();
@@ -150,7 +168,9 @@ function guess() {
             }
         }
     };
-    var guess = document.getElementById("guessField").value;; //get guess string
+    var guess = document.getElementById("guessField").value;
+    document.getElementById("guessField").value = ""; 
+    //get guess string
     guess = parseGuess(guess);
     xhr.open("PUT", `${url}guess?id=${playerId}&data=${guess}`, true);
     xhr.send();
