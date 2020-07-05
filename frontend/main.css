@@ -274,7 +274,7 @@ ol{
 }
 
 .message h3{
-  visibility: hidden;
+  background-color: transparent;
 }
 
 .hidden {
