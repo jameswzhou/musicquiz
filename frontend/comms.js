@@ -318,6 +318,7 @@ function setRemainingPathColor(timeLeft) {
   }
 }
 
+
 function calculateTimeFraction() {
   const rawTimeFraction = timeLeft / TIME_LIMIT;
   return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
