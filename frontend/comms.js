@@ -25,18 +25,54 @@ var playerId, roomStarted = false, currentSong;
 
 //script to join room
 function join() {
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      var response = JSON.parse(this.responseText);
-      playerId = response.playerId;
-    }
-  };
-  document.getElementById("joinButton").classList.add("hidden");
-  document.getElementById("startButton").classList.remove("hidden");
-  xhr.open("POST", url + 'join/', true);
-  xhr.send();
-  setInterval(function () { scoreboard() }, 250);
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var response = JSON.parse(this.responseText);
+            playerId = response.playerId;
+        }
+    };
+    document.getElementById("joinButton").classList.add("hidden");
+    document.getElementById("startButton").classList.remove("hidden");
+
+    //set html for the countdown timer
+    document.getElementById("countdown").innerHTML = `
+    <div class="base-timer">
+      <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <g class="base-timer__circle">
+          <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+          <path
+            id="base-timer-path-remaining"
+            stroke-dasharray="283"
+            class="base-timer__path-remaining animate ${remainingPathColor}"
+            d="
+              M 50, 50
+              m -45, 0
+              a 45,45 0 1,0 90,0
+              a 45,45 0 1,0 -90,0
+            "
+          ></path>
+        </g>
+      </svg>
+      <span id="time" class="base-timer__label">
+      </span>
+    </div>
+    `;
+
+
+    xhr.open("POST", url + 'join/', true);
+    xhr.send();
+
+    //guessing form submits with "enter" keypress
+    var input = document.getElementById("guessField");
+    console.log(input);
+    input.addEventListener("keypress", function(event) {
+    if (event.keyCode == 13) {
+      event.preventDefault();
+      document.getElementById("submit").click();
+    }});
+
+    setInterval(function () { scoreboard() }, 250);
 }
 
 //script to retrieve scoreboard (run every 0.25s)
@@ -49,8 +85,11 @@ function scoreboard() {
         roomStarted = true;
         changeSong(response.currentSongFile);
         //start room stuff (hide start button etc)
-        document.getElementById("guessForm").classList.remove("hidden");
         document.getElementById("startButton").classList.add("hidden");
+        document.getElementById("countdown").classList.remove("hidden");
+        document.getElementById("guessForm").classList.remove("hidden");
+        document.getElementById("message").classList.remove("hidden");
+        document.getElementById("recentsong").classList.remove("hidden");
       }
       if (response.currentSongFile !== currentSong) {
         changeSong(response.currentSongFile);
@@ -85,6 +124,9 @@ function scoreboard() {
       //update previous song display
       document.getElementById("artist").innerHTML = response.previousSong.artist;
       document.getElementById("song").innerHTML = response.previousSong.title;
+      document.getElementById("albumcover").innerHTML = `
+          <img id="cover" src=${response.previousSong.cover}></img>
+      `;
       //update previous song using following data:
       //response.previousSong.title
       //response.previousSong.cover
@@ -145,50 +187,16 @@ function changeSong(preview) {
 
 //script to start game
 function start() {
-  //set html for the countdown timer
-  document.getElementById("countdown").innerHTML = `
-    <div class="base-timer">
-      <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <g class="base-timer__circle">
-          <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
-          <path
-            id="base-timer-path-remaining"
-            stroke-dasharray="283"
-            class="base-timer__path-remaining animate ${remainingPathColor}"
-            d="
-              M 50, 50
-              m -45, 0
-              a 45,45 0 1,0 90,0
-              a 45,45 0 1,0 -90,0
-            "
-          ></path>
-        </g>
-      </svg>
-      <span id="time" class="base-timer__label">
-      </span>
-    </div>
-    `;
+    //hide start/join buttons and reveal guessing fields
+    document.getElementById("startButton").classList.add("hidden");
+    document.getElementById("countdown").classList.remove("hidden");
+    document.getElementById("guessForm").classList.remove("hidden");
+    document.getElementById("message").classList.remove("hidden");
+    document.getElementById("recentsong").classList.remove("hidden");
 
-  //hide start/join buttons and reveal guessing fields
-  document.getElementById("startButton").classList.add("hidden");
-  document.getElementById("countdown").classList.remove("hidden");
-  document.getElementById("guessForm").classList.remove("hidden");
-  document.getElementById("message").classList.remove("hidden");
-  document.getElementById("recentsong").classList.remove("hidden");
-
-  //guessing form submits with "enter" keypress
-  var input = document.getElementById("guessField");
-  console.log(input);
-  input.addEventListener("keypress", function (event) {
-    if (event.keyCode == 13) {
-      event.preventDefault();
-      document.getElementById("submit").click();
-    }
-  });
-
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", url + 'start/', true);
-  xhr.send();
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url + 'start/', true);
+    xhr.send();
 }
 
 
@@ -294,6 +302,7 @@ function onTimesUp() {
 function setRemainingPathColor(timeLeft) {
   const { alert, warning, info } = COLOR_CODES;
   if (timeLeft === 20) {
+    remainingPathColor = COLOR_CODES.info.color;
     document
       .getElementById("base-timer-path-remaining")
       .classList.remove(alert.color);
@@ -302,6 +311,7 @@ function setRemainingPathColor(timeLeft) {
       .classList.add(info.color);
   }
   if (timeLeft <= alert.threshold) {
+    remainingPathColor = COLOR_CODES.alert.color;
     document
       .getElementById("base-timer-path-remaining")
       .classList.remove(warning.color);
@@ -309,6 +319,7 @@ function setRemainingPathColor(timeLeft) {
       .getElementById("base-timer-path-remaining")
       .classList.add(alert.color);
   } else if (timeLeft <= warning.threshold) {
+    remainingPathColor = COLOR_CODES.warning.color;
     document
       .getElementById("base-timer-path-remaining")
       .classList.remove(info.color);
