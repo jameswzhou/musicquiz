@@ -1,4 +1,4 @@
-const url = "http://localhost:25565/";
+const url = "http://70.77.251.191:25565/";
 
 /* COUNTDOWN TIMER VARIABLES */
 const FULL_DASH_ARRAY = 283;
