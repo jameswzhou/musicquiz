@@ -161,6 +161,7 @@ function changeSong(preview) {
   document.getElementById("guessField").value = "";
   //stop current audio (if any), play new audio
   audio = new Audio(preview);
+  audio.crossOrigin = "anonymous";
   audio.addEventListener("timeupdate", function () {
     var timer = document.getElementById("time"),
       duration = TIME_LIMIT,
@@ -180,6 +181,7 @@ function changeSong(preview) {
 
   audio.setAttribute("muted", "true");
   audio.volume = 0.1;
+  displayVisual(audio);
   audio.play();
 }
 
@@ -196,6 +198,62 @@ function start() {
     xhr.open("POST", url + 'start/', true);
     xhr.send();
 }
+
+
+function displayVisual(audio){
+  console.log(audio.src);
+  var context = new window.AudioContext();
+  var src = context.createMediaElementSource(audio);
+  var analyser = context.createAnalyser();
+
+  var canvas = document.getElementById("canvas");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  var ctx = canvas.getContext("2d");
+
+  src.connect(analyser);
+  analyser.connect(context.destination);
+
+  analyser.fftSize = 256;
+
+  var bufferLength = analyser.frequencyBinCount;
+  console.log(bufferLength); 
+  
+  var dataArray = new Uint8Array(bufferLength);
+
+  var WIDTH = canvas.width;
+  var HEIGHT = canvas.height;
+
+  var barWidth = (WIDTH / bufferLength) * 2.5;
+  var barHeight;
+  var x = 0;
+
+  function renderFrame() {
+    requestAnimationFrame(renderFrame);
+
+    x = 0;
+
+    analyser.getByteFrequencyData(dataArray);
+
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+    for (var i = 0; i < bufferLength; i++) {
+      barHeight = dataArray[i];
+      var r = barHeight + (25 * (4*i/bufferLength));
+      var g = 0;
+      var b = 250 * (4*i/bufferLength);
+
+      ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+      ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
+
+      x += barWidth + 1;
+    }
+  }
+  //audio.play();
+  renderFrame();
+}
+
 
 //script to make a guess
 function guess() {
@@ -270,6 +328,7 @@ function setRemainingPathColor(timeLeft) {
       .classList.add(warning.color);
   }
 }
+
 
 function calculateTimeFraction() {
   const rawTimeFraction = timeLeft / TIME_LIMIT;
